@@ -8,6 +8,10 @@ node_modules
 # testing
 coverage
 
+# functions
+dist/
+tsconfig.tsbuildinfo
+
 # next.js
 .next/
 out/

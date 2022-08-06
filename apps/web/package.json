@@ -17,9 +17,9 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "eslint": "7.32.0",
-    "eslint-config-custom": "*",
+    "@altocumulus/eslint-config-custom": "*",
     "next-transpile-modules": "9.0.0",
-    "tsconfig": "*",
+    "@altocumulus/tsconfig": "*",
     "@types/node": "^17.0.12",
     "@types/react": "17.0.47",
     "typescript": "^4.5.3"
