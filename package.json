@@ -9,8 +9,9 @@
     "packages/libs/*"
   ],
   "scripts": {
-    "turbo": "turbo",
+    "affected": "npm run build:affected -- --dry",
     "build": "turbo run build",
+    "build:affected": "turbo run build --filter=...[main...]",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
