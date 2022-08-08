@@ -1,0 +1,16 @@
+{
+  "name": "@altocumulus/domain",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@altocumulus/tsconfig": "*",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.3.0"
+  }
+}

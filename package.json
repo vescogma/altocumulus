@@ -5,9 +5,11 @@
   "workspaces": [
     "apps/*",
     "functions/**/*",
-    "packages/*"
+    "packages/*",
+    "packages/libs/*"
   ],
   "scripts": {
+    "turbo": "turbo",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
