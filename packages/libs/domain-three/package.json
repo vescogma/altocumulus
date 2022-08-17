@@ -1,0 +1,22 @@
+{
+  "name": "domain-three",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
+  },
+  "devDependencies": {
+    "tsconfig": "*"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.3.0"
+  }
+}

@@ -4,10 +4,15 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "apps/functions/**/*",
+    "packages/*",
+    "packages/libs/*"
   ],
   "scripts": {
+    "compile": "turbo prune",
+    "affected": "yarn build:affected --dry",
     "build": "turbo run build",
+    "build:affected": "turbo run build --filter=...[main...]",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
@@ -21,6 +26,8 @@
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.2"
+  },
   "packageManager": "yarn@1.22.19"
 }

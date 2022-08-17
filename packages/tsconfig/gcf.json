@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "GCF",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "incremental": false,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "exclude": ["node_modules"]
+}
