@@ -11,7 +11,7 @@
     }
   },
   "scripts": {
-    "emulate": "functions-framework --target=functionOne --signature-type=cloudevent",
+    "emulate": "functions-framework --target=domainOneFunctionTwo --signature-type=cloudevent",
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "dependencies": {

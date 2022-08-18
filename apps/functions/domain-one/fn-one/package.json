@@ -11,7 +11,7 @@
     }
   },
   "scripts": {
-    "emulate": "functions-framework --target=functionOne --signature-type=http",
+    "emulate": "functions-framework --target=domainOneFunctionOne --signature-type=http",
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "dependencies": {

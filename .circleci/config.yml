@@ -1,10 +1,13 @@
 version: 2.1
+
 orbs: 
   node: circleci/node@5.0.2
+
 workflows:
-  say-hello-workflow:
+  main-workflow:
     jobs:
       - build
+
 jobs:
   build:
     docker:
@@ -13,14 +16,4 @@ jobs:
       - checkout
       - node/install-packages
       - run:
-        command: npm run build:affected
-  # lint:
-  #   docker:
-  #     - image: cimg/base:stable
-  #   # Add steps to the job
-  #   # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: "Say hello"
-  #         command: "echo Hello, World!"
+        command: yarn build:affected
