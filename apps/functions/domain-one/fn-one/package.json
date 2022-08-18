@@ -1,5 +1,5 @@
 {
-  "name": "@ac/fn-one",
+  "name": "@ac/domain-one-fn-one",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,9 @@
     }
   },
   "scripts": {
-    "emulate": "functions-framework --target=domainOneFunctionOne --signature-type=http",
-    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
+    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean",
+    "clean": "rm -rf dist",
+    "emulate": "functions-framework --target=domainOneFunctionOne --signature-type=http"
   },
   "dependencies": {
     "@ac/eslint-config-custom": "*",

@@ -1,5 +1,5 @@
 {
-  "name": "@ac/fn-three",
+  "name": "@ac/domain-two-fn-three",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,12 +11,13 @@
     }
   },
   "scripts": {
-    "emulate": "functions-framework --target=functionOne --signature-type=cloudevent",
-    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
+    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean",
+    "clean": "rm -rf dist",
+    "emulate": "functions-framework --target=functionOne --signature-type=cloudevent"
   },
   "dependencies": {
-    "@ac/domain-two": "*",
     "@ac/domain-three": "*",
+    "@ac/domain-two": "*",
     "@ac/eslint-config-custom": "*",
     "@google-cloud/functions-framework": "^3.1.2"
   },

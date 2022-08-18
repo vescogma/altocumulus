@@ -1,5 +1,5 @@
 {
-  "name": "@ac/fn-two",
+  "name": "@ac/domain-one-fn-two",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,9 @@
     }
   },
   "scripts": {
-    "emulate": "functions-framework --target=domainOneFunctionTwo --signature-type=cloudevent",
-    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
+    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean",
+    "clean": "rm -rf dist",
+    "emulate": "functions-framework --target=domainOneFunctionTwo --signature-type=cloudevent"
   },
   "dependencies": {
     "@ac/domain-one": "*",

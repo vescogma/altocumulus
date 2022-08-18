@@ -1,1 +1,1 @@
-export * from "./random-bs.js"
+export * from "./random-bs.js";

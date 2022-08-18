@@ -1,1 +1,1 @@
-export * from "./random-date.js"
+export * from "./random-date.js";

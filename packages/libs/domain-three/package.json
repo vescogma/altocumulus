@@ -11,7 +11,8 @@
     }
   },
   "scripts": {
-    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
+    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
     "@ac/tsconfig": "*"

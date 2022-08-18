@@ -1,0 +1,9 @@
+  "type": "module",
+  "exports": {
+    "*": {
+      "import": "./apps/functions/{{ domain }}/{{ name }}/dist/index.js",
+      "require": "./apps/functions/{{ domain }}/{{ name }}/dist/index.cjs",
+      "types": "./apps/functions/{{ domain }}/{{ name }}/dist/index.d.ts"
+    }
+  },
+  "scripts": {

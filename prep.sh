@@ -12,11 +12,19 @@ sed -i '' '5i\
   "main": "./apps/functions/domain-one/fn-two/dist/index.js",
 ' package.json
 
-gcloud functions deploy domain-one-fn-two \
---gen2 \
---runtime=nodejs16 \
---region=us-central1 \
---source=. \
---entry-point=domainOneFunctionTwo \
---trigger-http \
---allow-unauthenticated
+# gcloud functions deploy domain-one-fn-one \
+# --gen2 \
+# --runtime=nodejs16 \
+# --region=us-central1 \
+# --source=. \
+# --entry-point=domainOneFunctionOne \
+# --trigger-http \
+# --allow-unauthenticated
+
+# gcloud functions deploy domain-one-fn-two \
+# --gen2 \
+# --runtime=nodejs16 \
+# --region=us-central1 \
+# --source=. \
+# --entry-point=domainOneFunctionTwo \
+# --trigger-event-filters=type=EVENT_TYPE \

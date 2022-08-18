@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
+import { faker } from "@faker-js/faker";
 
 export const getRandomBS = () => {
-  return faker.company.bs()
-}
+  return faker.company.bs();
+};

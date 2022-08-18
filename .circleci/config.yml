@@ -6,14 +6,15 @@ orbs:
 workflows:
   main-workflow:
     jobs:
-      - build
+      - affected
 
 jobs:
-  build:
+  affected:
     docker:
       - image: cimg/node:lts
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
-        command: yarn build:affected
+          command: yarn list:affected

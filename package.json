@@ -9,13 +9,16 @@
     "packages/libs/*"
   ],
   "scripts": {
-    "compile": "turbo prune",
-    "affected": "yarn build:affected --dry",
     "build": "turbo run build",
     "build:affected": "turbo run build --filter=...[main...]",
+    "clean": "turbo run clean",
+    "cli": "yarn workspace @ac/cli start",
+    "compile": "turbo prune",
     "dev": "turbo run dev --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "list": "yarn build --dry",
+    "list:affected": "yarn build:affected --dry"
   },
   "devDependencies": {
     "@ac/eslint-config-custom": "*",
@@ -26,8 +29,6 @@
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.2"
-  },
+  "dependencies": {},
   "packageManager": "yarn@1.22.19"
 }

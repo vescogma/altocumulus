@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
+import { faker } from "@faker-js/faker";
 
 export const getRandomName = () => {
-  return faker.name.firstName()
-}
+  return faker.name.firstName();
+};
