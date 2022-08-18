@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/gcf.json",
+  "extends": "@ac/tsconfig/gcf.json",
   "compilerOptions": {
     "outDir": "dist"
   },

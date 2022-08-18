@@ -1,5 +1,5 @@
 {
-  "name": "fn-three",
+  "name": "@ac/fn-three",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -15,11 +15,12 @@
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.2",
-    "domain-two": "*",
-    "domain-three": "*"
+    "@ac/domain-two": "*",
+    "@ac/domain-three": "*",
+    "@ac/eslint-config-custom": "*",
+    "@google-cloud/functions-framework": "^3.1.2"
   },
   "devDependencies": {
-    "tsconfig": "*"
+    "@ac/tsconfig": "*"
   }
 }

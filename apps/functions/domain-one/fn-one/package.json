@@ -1,5 +1,5 @@
 {
-  "name": "fn-one",
+  "name": "@ac/fn-one",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -15,9 +15,10 @@
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "dependencies": {
+    "@ac/eslint-config-custom": "*",
     "@google-cloud/functions-framework": "^3.1.2"
   },
   "devDependencies": {
-    "tsconfig": "*"
+    "@ac/tsconfig": "*"
   }
 }

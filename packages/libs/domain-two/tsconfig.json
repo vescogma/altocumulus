@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/lib.json",
+  "extends": "@ac/tsconfig/lib.json",
   "compilerOptions": {
     "outDir": "dist"
   },

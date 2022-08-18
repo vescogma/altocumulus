@@ -1,5 +1,5 @@
 {
-  "name": "domain-three",
+  "name": "@ac/domain-three",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,7 +14,7 @@
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "devDependencies": {
-    "tsconfig": "*"
+    "@ac/tsconfig": "*"
   },
   "dependencies": {
     "@faker-js/faker": "^7.3.0"

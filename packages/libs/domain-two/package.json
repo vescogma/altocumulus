@@ -1,5 +1,5 @@
 {
-  "name": "domain-two",
+  "name": "@ac/domain-two",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,7 +14,7 @@
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "devDependencies": {
-    "tsconfig": "*",
+    "@ac/tsconfig": "*",
     "tsup": "^6.2.2"
   },
   "dependencies": {

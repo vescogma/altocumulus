@@ -1,5 +1,5 @@
 {
-  "name": "fn-two",
+  "name": "@ac/fn-two",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -15,11 +15,12 @@
     "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean"
   },
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.2",
-    "domain-one": "*"
+    "@ac/domain-one": "*",
+    "@ac/eslint-config-custom": "*",
+    "@google-cloud/functions-framework": "^3.1.2"
   },
   "devDependencies": {
-    "tsconfig": "*",
+    "@ac/tsconfig": "*",
     "tsup": "^6.2.2"
   }
 }
