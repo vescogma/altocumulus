@@ -5,6 +5,10 @@ dist
 build
 out
 
+# build system
+tmp
+.circleci/generated
+
 # dependencies
 node_modules
 .pnp

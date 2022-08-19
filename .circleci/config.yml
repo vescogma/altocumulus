@@ -1,12 +1,10 @@
 version: 2.1
 
-orbs: 
-  node: circleci/node@5.0.2
+setup: true
 
-workflows:
-  main-workflow:
-    jobs:
-      - affected
+orbs:
+  node: circleci/node@5.0.2
+  continuation: circleci/continuation@0.3.1
 
 jobs:
   affected:
@@ -16,5 +14,32 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      - run:
-          command: yarn list:affected
+      - run: node ./scripts/list-deploy-functions.mjs
+      # - run: node ./scripts/create-dynamic-config.mjs
+      - persist_to_workspace:
+          root: ./tmp
+          path:
+            - functions-to-deploy.txt
+
+  setup:
+    executor: continuation/default
+    steps:
+      - attach_workspace:
+          at: ./tmp
+      - run: cat ./tmp/functions-to-deploy.txt
+      # - continuation/continue:
+      #     configuration_path: ./circleci/generated/generated_config.yml
+
+workflows:
+  setup:
+    jobs:
+      - affected:
+          filters:
+            branches:
+              only: main
+      - setup:
+          requires:
+            - affected
+          filters:
+            branches:
+              only: main
