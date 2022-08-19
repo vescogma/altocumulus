@@ -1,5 +1,5 @@
 import { http } from "@google-cloud/functions-framework";
 
-http("domainOneFunctionOne", async (req, res) => {
+http("domainOneFnOne", async (req, res) => {
   return res.send("success");
 });

@@ -4,9 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "plop"
+    "build": "tsup-node",
+    "dev": "tsup-node && node ./dist/index.js",
+    "start": "node ./dist/index.js"
   },
   "devDependencies": {
-    "plop": "^3.1.1"
-  }
+    "change-case": "^4.1.2",
+    "commander": "^9.4.0",
+    "inquirer": "^9.1.0",
+    "inquirer-search-checkbox": "^1.0.0",
+    "plop": "^3.1.1",
+    "tsup": "^6.2.2"
+  },
+  "dependencies": {}
 }

@@ -18,8 +18,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "list": "yarn build --dry=json",
-    "list:affected": "yarn build:affected --dry=json",
-    "dummy": "echo"
+    "list:affected": "yarn build:affected --dry=json"
   },
   "devDependencies": {
     "@ac/eslint-config-custom": "*",

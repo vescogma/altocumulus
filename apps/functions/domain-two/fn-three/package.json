@@ -1,8 +1,9 @@
 {
-  "name": "@ac/domain-two-fn-three",
+  "name": "@ac/domain-two--fn-three",
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "./dist/index.js",
   "exports": {
     "*": {
       "import": "./dist/index.js",
@@ -11,17 +12,18 @@
     }
   },
   "scripts": {
-    "build": "tsup src --format esm,cjs --dts-resolve --no-splitting --clean",
+    "build": "tsup-node",
     "clean": "rm -rf dist",
     "emulate": "functions-framework --target=functionOne --signature-type=cloudevent"
   },
   "dependencies": {
     "@ac/domain-three": "*",
     "@ac/domain-two": "*",
-    "@ac/eslint-config-custom": "*",
     "@google-cloud/functions-framework": "^3.1.2"
   },
   "devDependencies": {
-    "@ac/tsconfig": "*"
+    "@ac/eslint-config-custom": "*",
+    "@ac/tsconfig": "*",
+    "tsup": "^6.2.2"
   }
 }

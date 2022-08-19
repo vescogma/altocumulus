@@ -4,42 +4,43 @@ setup: true
 
 orbs:
   node: circleci/node@5.0.2
-  continuation: circleci/continuation@0.3.1
+  gcp-cli: circleci/gcp-cli@2.4.1
 
 jobs:
-  affected:
-    docker:
-      - image: cimg/node:lts
+  build:
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      - run: node ./scripts/list-deploy-functions.mjs
-      # - run: node ./scripts/create-dynamic-config.mjs
+      - run: yarn build
+      - run: yarn cli create-deployment-config
       - persist_to_workspace:
-          root: ./tmp
-          path:
-            - functions-to-deploy.txt
+          root: ~/project
+          paths:
+            - .
 
-  setup:
-    executor: continuation/default
+  deploy-cloud-functions:
+    executor: node/default
     steps:
       - attach_workspace:
-          at: ./tmp
-      - run: cat ./tmp/functions-to-deploy.txt
-      # - continuation/continue:
-      #     configuration_path: ./circleci/generated/generated_config.yml
+          at: ~/project
+      - run: |
+          if ! grep -q cloud-functions ./tmp/deployment.txt; then
+            circleci-agent step halt
+          fi
+      - gcp-cli/install:
+          version: 398.0.0
+      - gcp-cli/initialize
+      - run: yarn cli deploy-cloud-functions --affected
 
 workflows:
-  setup:
+  deploy:
+    when:
+      or:
+        - equal: [main, << pipeline.git.branch >>]
     jobs:
-      - affected:
-          filters:
-            branches:
-              only: main
-      - setup:
+      - build
+      - deploy-cloud-functions:
           requires:
-            - affected
-          filters:
-            branches:
-              only: main
+            - build
