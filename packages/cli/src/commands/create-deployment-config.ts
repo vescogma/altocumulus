@@ -5,8 +5,8 @@ import { CliCommand } from "../libs/typings.js";
 
 const config = {
   id: "create-deployment-config",
-  title: "⚙️ Create deployment config",
-  description: "Store deployment configuration file to /tmp.",
+  title: "⚙️  Create deployment config",
+  description: "store deployment configuration file to /tmp",
 };
 
 const action = async () => {

@@ -10,8 +10,8 @@ import { CliCommand } from "../libs/typings.js";
 
 const config = {
   id: "deploy-cloud-functions",
-  title: "🚢 Deploy cloud functions.",
-  description: "Choose cloud functions to deploy locally.",
+  title: "🚢 Deploy cloud functions",
+  description: "choose cloud functions to deploy locally",
 };
 
 const action = async () => {
@@ -23,7 +23,7 @@ const action = async () => {
       message: "Which functions would you like to deploy?",
       choices: [
         { name: "All the functions! 🧹🤪✊", value: "all" },
-        { name: "Affected 👌😌👌", value: "affected" },
+        { name: "Affected 👌😌", value: "affected" },
         { name: "Let me pick 🙏", value: "interactive" },
       ],
     },
@@ -45,13 +45,15 @@ Examples:
 `;
 
 const command = createCommand(config.id)
-  .description(`${config.description} Defaults to "affected".`)
+  .description(config.description)
   .addHelpText("after", EXAMPLES_TEXT)
-  .option("-a, --all", "Deploy all functions.")
-  .option("-A, --affected", "Deploy only affected functions.")
-  .option("-p, --packages <string...>", "Deploy chosen functions.")
+  .option("-a, --all", "deploy all functions")
+  .option("-A, --affected", "deploy only affected functions")
+  .option("-p, --packages <string...>", "deploy chosen functions")
   .action(async (options) => {
-    if (options.affected || Object.values(options).length < 1) {
+    if (Object.values(options).length < 1) {
+      await action()
+    } else if (options.affected) {
       await deploy("affected");
     } else if (options.all) {
       await deploy("all");
