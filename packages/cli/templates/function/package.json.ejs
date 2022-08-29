@@ -1,10 +1,11 @@
 {
-  "name": "@ac/domain-two",
+  "name": "<%- packageName %>",
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "./dist/index.js",
   "exports": {
-    ".": {
+    "*": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
@@ -12,14 +13,15 @@
   },
   "scripts": {
     "build": "tsup-node",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "emulate": "functions-framework --target=<%- entryPoint %> --signature-type=http"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.2"
   },
   "devDependencies": {
     "@ac/eslint-config-custom": "*",
     "@ac/tsconfig": "*",
     "tsup": "^6.2.2"
-  },
-  "dependencies": {
-    "@faker-js/faker": "^7.3.0"
   }
 }

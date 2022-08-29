@@ -2,9 +2,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src"],
-  format: ["esm"],
+  format: ["esm", "cjs"],
   target: "node16",
-  tsconfig: "./tsconfig.json",
   splitting: false,
   clean: true,
   dts: {

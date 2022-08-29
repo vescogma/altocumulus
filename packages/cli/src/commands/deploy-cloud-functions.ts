@@ -15,7 +15,7 @@ const config = {
 };
 
 const action = async () => {
-  const packageNames = getAllPackageNames();
+  const packageNames = await getAllPackageNames();
   const answers = await cliPrompt([
     {
       type: "list",
@@ -29,13 +29,13 @@ const action = async () => {
     },
     {
       type: "search-checkbox",
-      name: "cloudFunctions",
+      name: "pkgNames",
       message: "Pick 'em.",
       choices: packageNames.map((key) => ({ name: key, value: key })),
       when: (answers) => answers.groupSelection === "interactive",
     },
   ]);
-  await deploy(answers.groupSelection, answers.cloudFunctions);
+  await deploy(answers.groupSelection, answers.pkgNames);
 };
 
 const EXAMPLES_TEXT = `
@@ -52,7 +52,7 @@ const command = createCommand(config.id)
   .option("-p, --packages <string...>", "deploy chosen functions")
   .action(async (options) => {
     if (Object.values(options).length < 1) {
-      await action()
+      await action();
     } else if (options.affected) {
       await deploy("affected");
     } else if (options.all) {
@@ -80,10 +80,10 @@ const deploy = async (
     toDeploy.push(...selectedPackageNames!);
   } else {
     if (selectedGroup === "all") {
-      const packageNames = getAllPackageNames();
+      const packageNames = await getAllPackageNames();
       toDeploy.push(...packageNames);
     } else if (selectedGroup === "affected") {
-      const affectedPackageNames = getAffectedPackageNames();
+      const affectedPackageNames = await getAffectedPackageNames();
       toDeploy.push(...affectedPackageNames);
     }
   }

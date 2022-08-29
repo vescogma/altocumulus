@@ -10,8 +10,9 @@ const config = {
 };
 
 const action = async () => {
+  const affectedPackages = await getAffectedPackageNames();
   const configMap = {
-    "cloud-functions": getAffectedPackageNames().length > 0,
+    "cloud-functions": affectedPackages.length > 0,
   };
   const configOutput = Object.keys(configMap)
     .filter((key) => configMap[key as keyof typeof configMap] === true)

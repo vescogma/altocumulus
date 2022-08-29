@@ -1,46 +1,39 @@
-import {
-  existsSync,
-  readFileSync,
-  renameSync,
-  writeFileSync,
-  rmSync,
-  mkdirSync,
-} from "fs";
-import { promisify } from "util";
-import { execSync, exec } from "child_process";
+import { existsSync } from "node:fs";
+import { mkdir, rmdir, rename, readFile, writeFile } from "node:fs/promises";
+import { promisify } from "node:util";
+import { join } from "node:path";
+import childProcess from "node:child_process";
 import { camelCase } from "change-case";
 
-import {
-  getListAffectedOutput,
-  getWorkspacesInfoOutput,
-} from "./deployment.js";
+import { getListAffectedOutput, getWorkspacesInfoOutput } from "./workspace.js";
 
-const asyncExec = promisify(exec);
+const exec = promisify(childProcess.exec);
 
-export const getAllPackageNames = () => {
-  const workspacesInfo = getWorkspacesInfoOutput();
+export const getAllPackageNames = async () => {
+  const workspacesInfo = await getWorkspacesInfoOutput();
   return Object.keys(workspacesInfo).filter(
     (pkgKey) =>
       workspacesInfo[pkgKey].location.match("apps/functions/") !== null
   );
 };
 
-export const getAffectedPackageNames = () => {
-  const affectedInfo = getListAffectedOutput();
+export const getAffectedPackageNames = async () => {
+  const affectedInfo = await getListAffectedOutput();
   const affectedMap = affectedInfo.packages.reduce(
     (acc: Record<string, true>, pkgKey: string) => ({ ...acc, [pkgKey]: true }),
     {}
   );
-  return getAllPackageNames().filter((pkgKey) => affectedMap[pkgKey]);
+  const packageNames = await getAllPackageNames();
+  return packageNames.filter((pkgKey) => affectedMap[pkgKey]);
 };
 
-export const getFunctionNameFromPackage = (packageName: string) =>
+export const getFunctionNameFromPackageName = (packageName: string) =>
   packageName.replace("@ac/", "");
 
 export const getInfoFromPackageName = (packageName: string) =>
-  getFunctionNameFromPackage(packageName).split("--");
+  getFunctionNameFromPackageName(packageName).split("--");
 
-export const getEntryPointFromPackage = (packageName: string) => {
+export const getEntryPointFromPackageName = (packageName: string) => {
   const [domain, name] = getInfoFromPackageName(packageName);
   return camelCase(`${domain}-${name}`);
 };
@@ -60,34 +53,40 @@ const getTemplatedPackageJson = (
   "scripts": {
 `;
 
-export const pruneCloudFunctionPackage = (packageName: string) => {
-  execSync(`cd ../../ && yarn compile --scope=${packageName}`);
+export const pruneCloudFunctionPackage = async (packageName: string) => {
+  const tmpPath = join("..", "..", "tmp");
+  await exec(`cd ../../ && yarn compile --scope=${packageName}`);
   const [domain, name] = getInfoFromPackageName(packageName);
-  const dirPath = `../../tmp/out-${domain}-${name}`;
-  if (!existsSync("../../tmp")) {
-    mkdirSync("../../tmp");
-  } else if (existsSync(dirPath)) {
-    rmSync(dirPath, { recursive: true });
+  const dirPath = join(tmpPath, `out-${domain}-${name}`);
+  if (!existsSync(tmpPath)) {
+    await mkdir(tmpPath);
   }
-  renameSync("../../out", dirPath);
-  const rootPackage = readFileSync(`${dirPath}/package.json`).toString();
-  const toInject = getTemplatedPackageJson(domain, name);
-  const modifiedPackage = rootPackage.replace('  "scripts": {\n', toInject);
-  writeFileSync(`${dirPath}/package.json`, modifiedPackage);
-  const gitIgnore = readFileSync(`${dirPath}/.gitignore`).toString();
+  if (existsSync(dirPath)) {
+    await rmdir(dirPath);
+  }
+  await rename(join("..", "..", "out"), dirPath);
+  // handle .gitignore
+  const gitIgnorePath = join(dirPath, ".gitignore");
+  const gitIgnore = await readFile(gitIgnorePath, { encoding: "utf8" });
   const modifiedGitIgnore = gitIgnore.replace("dist\n", "");
-  writeFileSync(`${dirPath}/.gitignore`, modifiedGitIgnore);
-  execSync(`cd ${dirPath} && yarn add -W @google-cloud/functions-framework`);
+  await writeFile(gitIgnorePath, modifiedGitIgnore);
+  // handle package.json
+  const toInject = getTemplatedPackageJson(domain, name);
+  const rootPackagePath = join(dirPath, "package.json");
+  const rootPackage = await readFile(rootPackagePath, { encoding: "utf8" });
+  const modifiedPackage = rootPackage.replace('  "scripts": {\n', toInject);
+  await writeFile(rootPackagePath, modifiedPackage);
+  await exec(`cd ${dirPath} && yarn add -W @google-cloud/functions-framework`);
 };
 
 export const deployCloudFunction = async (packageName: string) => {
   const [domain, name] = getInfoFromPackageName(packageName);
-  const fnName = getFunctionNameFromPackage(packageName);
-  const entryPoint = getEntryPointFromPackage(packageName);
-  console.log(`Deploying ${fnName} with entry point: ${entryPoint}...`);
-  return asyncExec(`
-    cd ../../tmp/out-${`${domain}-${name}`} \
-    && gcloud functions deploy ${fnName} \
+  const functionName = getFunctionNameFromPackageName(packageName);
+  const entryPoint = getEntryPointFromPackageName(packageName);
+  console.log(`Deploying ${functionName} with entry point: ${entryPoint}...`);
+  return exec(`
+    cd ${join("..", "..", "tmp", `out-${domain}-${name}`)} \
+    && gcloud functions deploy ${functionName} \
     --gen2 \
     --runtime=nodejs16 \
     --region=us-central1 \
