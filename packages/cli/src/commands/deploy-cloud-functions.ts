@@ -3,9 +3,9 @@ import {
   deployConcurrently,
   getAffectedPackageNames,
   getAllPackageNames,
-  pruneCloudFunctionPackage,
 } from "../libs/cloud-function-deployment.js";
 import { cliPrompt } from "../libs/inquirer.js";
+import { pruneCloudFunctionPackage } from "../libs/prep-cloud-function.js";
 import { CliCommand } from "../libs/typings.js";
 
 const config = {
@@ -89,7 +89,7 @@ const deploy = async (
   }
   if (toDeploy.length > 0) {
     for (let pkgName of toDeploy) {
-      pruneCloudFunctionPackage(pkgName);
+      await pruneCloudFunctionPackage(pkgName);
     }
     await deployConcurrently(toDeploy);
     console.log("Cloud functions deployed.");

@@ -6,7 +6,7 @@ export const getListAffectedOutput = async () => {
   await mkdir(join("..", "..", "tmp"), { recursive: true });
   execSync(`
     cd ../../ \
-    && yarn --silent list:affected > ./tmp/list-affected.txt
+    && yarn --silent list:affected:commit > ./tmp/list-affected.txt
   `);
   const filePath = join("..", "..", "tmp", "list-affected.txt");
   const affectedData = await readFile(filePath, { encoding: "utf8" });
@@ -27,4 +27,13 @@ export const getWorkspacesInfoOutput = async () => {
 export const isExistingPackage = async (packageName: string) => {
   const packages = await getWorkspacesInfoOutput();
   return Boolean(packages[packageName]?.location);
+};
+
+export const getPackageJson = async (packageName: string) => {
+  const packages = await getWorkspacesInfoOutput();
+  const { location } = packages[packageName];
+  const file = await readFile(join("..", "..", location, "package.json"), {
+    encoding: "utf8",
+  });
+  return JSON.parse(file);
 };

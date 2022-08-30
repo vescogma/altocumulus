@@ -3,7 +3,11 @@ import { camelCase, paramCase } from "change-case";
 import { renderTemplateFolder, writeRendered } from "./templating.js";
 import { isExistingPackage } from "./workspace.js";
 
-export const generateGcf = async (domain: string, name: string) => {
+export const generateGcf = async (
+  domain: string,
+  name: string,
+  pubsubTopic?: string
+) => {
   const valDomain = paramCase(domain);
   const valName = paramCase(name);
   const functionName = buildFunctionName(valDomain, valName);
@@ -19,8 +23,11 @@ export const generateGcf = async (domain: string, name: string) => {
     functionName,
     packageName,
     entryPoint,
+    pubsubTopic,
   };
-  const dirPath = join("templates", "function");
+  const dirPath = pubsubTopic
+    ? join("templates", "function-pubsub")
+    : join("templates", "function-http");
   const rendered = await renderTemplateFolder(
     dirPath,
     templateDate,

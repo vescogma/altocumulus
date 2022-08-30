@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "build:affected": "turbo run build --filter=...[main...]",
+    "build:affected": "turbo run build --filter=...[main]...",
+    "build:affected:commit": "turbo run build --filter=...[HEAD^1]...",
     "clean": "turbo run clean",
     "cli": "yarn workspace @ac/cli start",
     "compile": "turbo prune",
@@ -18,7 +19,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "list": "yarn build --dry=json",
-    "list:affected": "yarn build:affected --dry=json"
+    "list:affected": "yarn build:affected --dry=json",
+    "list:affected:commit": "yarn build:affected:commit --dry=json"
   },
   "devDependencies": {
     "@ac/eslint-config-custom": "*",

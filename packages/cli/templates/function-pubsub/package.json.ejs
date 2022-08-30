@@ -14,8 +14,16 @@
   "scripts": {
     "build": "tsup-node",
     "clean": "rm -rf dist",
-    "emulate": "functions-framework --target=<%- entryPoint %> --signature-type=http"
+    "emulate": "functions-framework --target=<%- entryPoint %> --signature-type=cloudevent"
   },
+  "@ac/deploy": [
+    "--gen2",
+    "--runtime=nodejs16",
+    "--region=us-central1",
+    "--source=.",
+    "--entry-point=<%- entryPoint %>",
+    "--trigger-topic=<%- pubsubTopic %>"
+  ],
   "dependencies": {
     "@google-cloud/functions-framework": "^3.1.2"
   },

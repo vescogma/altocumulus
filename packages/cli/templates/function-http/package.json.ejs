@@ -1,5 +1,5 @@
 {
-  "name": "@ac/domain-one--fn-two",
+  "name": "<%- packageName %>",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,18 +14,18 @@
   "scripts": {
     "build": "tsup-node",
     "clean": "rm -rf dist",
-    "emulate": "functions-framework --target=domainOneFunctionTwo --signature-type=cloudevent"
+    "emulate": "functions-framework --target=<%- entryPoint %> --signature-type=http"
   },
   "@ac/deploy": [
     "--gen2",
     "--runtime=nodejs16",
     "--region=us-central1",
     "--source=.",
-    "--entry-point=domainOneFunctionTwo",
-    "--trigger-topic=test-topic"
+    "--entry-point=<%- entryPoint %>",
+    "--trigger-http",
+    "--allow-unauthenticated"
   ],
   "dependencies": {
-    "@ac/domain-one": "*",
     "@google-cloud/functions-framework": "^3.1.2"
   },
   "devDependencies": {

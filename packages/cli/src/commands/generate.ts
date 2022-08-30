@@ -14,9 +14,14 @@ const config = {
 const action = async () => {
   const { generator } = await promptGenerator();
   switch (generator) {
-    case "gcf": {
+    case "gcf-http": {
       const { domain, name } = await promptGcf();
       await generateGcf(domain, name);
+      break;
+    }
+    case "gcf-pubsub": {
+      const { domain, name, topic } = await promptGcf(true);
+      await generateGcf(domain, name, topic);
       break;
     }
     case "lib": {
@@ -32,10 +37,10 @@ const action = async () => {
   }
 };
 
-const gcfSubCommand = createCommand('gcf')
-  .description('generate a new cloud function')
-  .option('-n, --name <string>', 'function name')
-  .option('-d, --domain <string>', 'function domain')
+const gcfHttpSubCommand = createCommand("gcf-http")
+  .description("generate a new http cloud function")
+  .option("-n, --name <string>", "function name")
+  .option("-d, --domain <string>", "function domain")
   .action(async (options) => {
     if (Object.values(options).length < 1) {
       const { domain, name } = await promptGcf();
@@ -43,11 +48,25 @@ const gcfSubCommand = createCommand('gcf')
     } else {
       await generateGcf(options.domain, options.name);
     }
-  })
+  });
 
-const libSubCommand = createCommand('lib')
-  .description('generate a new lib')
-  .option('-n, --name <string>', 'lib name')
+const gcfPubsubCommand = createCommand("gcf-pubsub")
+  .description("generate a new pub/sub cloud function")
+  .option("-n, --name <string>", "function name")
+  .option("-d, --domain <string>", "function domain")
+  .option("-t, --topic <string>", "trigger pub/sub topic")
+  .action(async (options) => {
+    if (Object.values(options).length < 1) {
+      const { domain, name, topic } = await promptGcf(true);
+      await generateGcf(domain, name, topic);
+    } else {
+      await generateGcf(options.domain, options.name);
+    }
+  });
+
+const libSubCommand = createCommand("lib")
+  .description("generate a new lib")
+  .option("-n, --name <string>", "lib name")
   .action(async (options) => {
     if (Object.values(options).length < 1) {
       const { name } = await promptLib();
@@ -55,12 +74,15 @@ const libSubCommand = createCommand('lib')
     } else {
       await generateLib(options.name);
     }
-  })
+  });
 
-const packageSubCommand = createCommand('package')
-  .description('generate a new package')
-  .option('-n, --name <string>', 'package name')
-  .option('-p, --pathName <string>', 'packages/path/to/NAME (defaults to packages/NAME)')
+const packageSubCommand = createCommand("package")
+  .description("generate a new package")
+  .option("-n, --name <string>", "package name")
+  .option(
+    "-p, --pathName <string>",
+    "packages/path/to/NAME (defaults to packages/NAME)"
+  )
   .action(async (options) => {
     if (Object.values(options).length < 1) {
       const { name, pathName } = await promptPackage();
@@ -68,14 +90,15 @@ const packageSubCommand = createCommand('package')
     } else {
       await generatePackage(options.name, options.pathName);
     }
-  })
+  });
 
 const command = createCommand(config.id)
   .description(config.description)
-  .addCommand(gcfSubCommand)
+  .addCommand(gcfHttpSubCommand)
+  .addCommand(gcfPubsubCommand)
   .addCommand(libSubCommand)
   .addCommand(packageSubCommand)
-  .action(action)
+  .action(action);
 
 export const generate: CliCommand = {
   ...config,
@@ -90,7 +113,14 @@ const promptGenerator = () =>
       name: "generator",
       message: "What do you want to generate?",
       choices: [
-        { name: "☁️  Function - google cloud function", value: "gcf" },
+        {
+          name: "☁️  Http GCF - function triggered by an http event",
+          value: "gcf-http",
+        },
+        {
+          name: "📻 Pub/Sub GCF - function triggered by a pub/sub event",
+          value: "gcf-pubsub",
+        },
         {
           name: "📚 Lib - shared business logic (packages/libs/)",
           value: "lib",
@@ -100,8 +130,8 @@ const promptGenerator = () =>
     },
   ]);
 
-const promptGcf = () =>
-  cliPrompt<{ domain: string; name: string }>([
+const promptGcf = (pubsubTopic?: boolean) =>
+  cliPrompt<{ domain: string; name: string; topic: string }>([
     {
       type: "input",
       name: "name",
@@ -113,6 +143,15 @@ const promptGcf = () =>
       message: (answers) =>
         `What domain should we use (apps/functions/DOMAIN/${answers.name})?`,
     },
+    ...(pubsubTopic
+      ? [
+          {
+            type: "input",
+            name: "topic",
+            message: "What topic should the function trigger on?",
+          },
+        ]
+      : []),
   ]);
 
 const promptLib = () =>

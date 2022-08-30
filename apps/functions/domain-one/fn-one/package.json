@@ -16,6 +16,15 @@
     "clean": "rm -rf dist",
     "emulate": "functions-framework --target=domainOneFunctionOne --signature-type=http"
   },
+  "@ac/deploy": [
+    "--gen2",
+    "--runtime=nodejs16",
+    "--region=us-central1",
+    "--source=.",
+    "--entry-point=domainOneFunctionOne",
+    "--trigger-http",
+    "--allow-unauthenticated"
+  ],
   "dependencies": {
     "@google-cloud/functions-framework": "^3.1.2"
   },

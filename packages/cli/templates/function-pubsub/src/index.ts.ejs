@@ -1,0 +1,5 @@
+import { http } from "@google-cloud/functions-framework";
+
+http("<%- entryPoint %>", async (req, res) => {
+  return res.send("success");
+});
