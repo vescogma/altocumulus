@@ -13,7 +13,6 @@
   },
   "scripts": {
     "build": "tsup-node",
-    "clean": "rm -rf dist",
     "emulate": "functions-framework --target=domainOneFunctionTwo --signature-type=cloudevent"
   },
   "@ac/deploy": [

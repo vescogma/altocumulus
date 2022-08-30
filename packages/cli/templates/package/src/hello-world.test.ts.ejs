@@ -1,0 +1,8 @@
+import { describe, test, expect, jest } from "@jest/globals";
+import { helloWorld } from "./hello-world.js";
+
+describe("hello-world.test.ts", () => {
+  test("works", () => {
+    expect(helloWorld()).toBe("Hello World!");
+  });
+});
