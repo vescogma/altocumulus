@@ -1,0 +1,23 @@
+import { describe, test, expect, jest } from "@jest/globals";
+import {
+  HttpFunction,
+  Request,
+  Response,
+} from "@google-cloud/functions-framework";
+import { getFunction } from "@google-cloud/functions-framework/testing";
+
+import "./index.js";
+
+describe("index.ts", () => {
+  test("sends success", async () => {
+    const mockReq = {} as Request;
+    const mockRes = {
+      send: jest.fn(),
+    } as unknown as Response;
+
+    const cloudFunction = getFunction("<%- entryPoint %>") as HttpFunction;
+    await cloudFunction(mockReq, mockRes);
+
+    expect(mockRes.send).toHaveBeenCalledWith("success");
+  });
+});

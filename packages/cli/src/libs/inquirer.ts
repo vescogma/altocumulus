@@ -6,6 +6,6 @@ const containedInquirer = inquirer.createPromptModule();
 
 containedInquirer.registerPrompt("search-checkbox", inquirerSearchCheckbox);
 
-export const cliPrompt = <T = Answers>(
+export const cliPrompt = <T extends Answers>(
   ...args: Parameters<typeof containedInquirer<T>>
 ) => containedInquirer<T>(...args);

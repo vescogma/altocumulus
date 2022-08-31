@@ -22,9 +22,9 @@ const action = async () => {
       name: "groupSelection",
       message: "Which functions would you like to deploy?",
       choices: [
-        { name: "All the functions! 🧹🤪✊", value: "all" },
         { name: "Affected 👌😌", value: "affected" },
         { name: "Let me pick 🙏", value: "interactive" },
+        { name: "All the functions! 🧹🤪✊", value: "all" },
       ],
     },
     {
@@ -47,9 +47,9 @@ Examples:
 const command = createCommand(config.id)
   .description(config.description)
   .addHelpText("after", EXAMPLES_TEXT)
-  .option("-a, --all", "deploy all functions")
-  .option("-A, --affected", "deploy only affected functions")
+  .option("-a, --affected", "deploy only affected functions")
   .option("-p, --packages <string...>", "deploy chosen functions")
+  .option("-A, --all", "deploy all functions")
   .action(async (options) => {
     if (Object.values(options).length < 1) {
       await action();

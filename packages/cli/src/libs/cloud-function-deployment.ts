@@ -48,8 +48,7 @@ export const deployCloudFunction = async (packageName: string) => {
   console.log(`Deploying ${functionName} with entry point: ${entryPoint}...`);
   return exec(`
     cd ${join("..", "..", "tmp", `out-${domain}-${name}`)} \
-    && gcloud functions deploy ${functionName} \
-    ${deployOptions.join(" \\")}
+    && gcloud functions deploy ${functionName} ${deployOptions.join(" ")}
   `);
 };
 

@@ -3,6 +3,5 @@ import { getRandomDate } from "@ac/domain-two";
 import { getRandomBS } from "@ac/domain-three";
 
 http("domainTwoFnThree", async (req, res) => {
-  console.log("dep test", getRandomDate(), getRandomBS());
-  return res.send("success");
+  return res.send(`${getRandomDate()}${getRandomBS()}`);
 });

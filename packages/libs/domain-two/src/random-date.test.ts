@@ -1,14 +1,15 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { faker } from "@faker-js/faker";
-import { getRandomColor } from "./random-color.js";
+import { getRandomDate } from "./random-date.js";
 
 jest.mock("@faker-js/faker");
 
 const mocked = jest.mocked<typeof faker>(faker);
 
-describe("random-color.ts", () => {
+describe("random-date.ts", () => {
   test("returns a string", () => {
-    mocked.color.human.mockImplementation(() => "hello");
-    expect(getRandomColor()).toBe("hello");
+    const date = new Date()
+    mocked.date.future.mockImplementation(() => date);
+    expect(getRandomDate()).toBe(date);
   });
 });

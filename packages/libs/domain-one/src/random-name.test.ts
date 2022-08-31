@@ -6,7 +6,7 @@ jest.mock("@faker-js/faker");
 
 const mocked = jest.mocked<typeof faker>(faker);
 
-describe("random-name.test.ts", () => {
+describe("random-name.ts", () => {
   test("returns a string", () => {
     mocked.name.firstName.mockImplementation(() => "hello");
     expect(getRandomName()).toBe("hello");
